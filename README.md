@@ -1,2 +1,2 @@
 # bank_api
-Simples banking API, created with Spring Boot
+Simple banking API, created with Spring Boot
