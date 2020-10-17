@@ -1,29 +1,26 @@
 package com.example.bank.dto;
 
-import com.example.bank.enums.Status;
+import com.example.bank.config.CEP;
+import com.example.bank.enums.State;
 import lombok.Data;
-import org.hibernate.validator.constraints.br.CPF;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
 public class Proposal {
+
     private UUID id;
-    @NotBlank(message = "{firstName.notblank}")
-    private String firstName;
-    @NotBlank(message = "{lastName.notblank}")
-    private String lastName;
-    @Email
-    @NotBlank(message = "{email.notblank}")
-    private String email;
-    @NotNull(message = "{birthDate.notnull}")
-    private LocalDate birthDate;
-    @CPF(message = "CPF inválido.")
-    @NotBlank(message = "{cpf.notblank}")
-    private String cpf;
-    private Status status = Status.UNDER_PRE_ANALYSIS;
+    @NotBlank
+    @CEP(message = "CEP inválido.")
+    private String zip;
+    @NotBlank
+    private String street;
+    @NotBlank
+    private String neighborhood;
+    @NotBlank
+    private String complement;
+    @NotBlank
+    private String city;
+    private State state;
 }

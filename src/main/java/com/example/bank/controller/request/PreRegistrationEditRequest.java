@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
-public class ProposalEditRequest {
+public class PreRegistrationEditRequest {
     private UUID id;
     private String firstName;
     private String lastName;

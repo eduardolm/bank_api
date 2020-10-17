@@ -5,9 +5,9 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class File {
+public class Document {
+
     private UUID id;
     private Byte[] image;
 
-    
 }

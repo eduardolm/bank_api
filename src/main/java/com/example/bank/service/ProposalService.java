@@ -1,49 +1,49 @@
 package com.example.bank.service;
 
-import com.example.bank.controller.request.ProposalEditRequest;
 import com.example.bank.dto.Proposal;
 import com.example.bank.entity.ProposalEntity;
 import com.example.bank.enums.Status;
-import com.example.bank.helper.BucketHelper;
+import com.example.bank.repository.PreRegistrationRepository;
 import com.example.bank.repository.ProposalRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class ProposalService {
+
     private ProposalRepository proposalRepository;
     private ObjectMapper objectMapper;
+    private PreRegistrationRepository preRegistrationRepository;
 
-    public ProposalService(ProposalRepository proposalRepository, ObjectMapper objectMapper) {
+    public ProposalService(
+            ProposalRepository proposalRepository,
+            ObjectMapper objectMapper,
+            PreRegistrationRepository preRegistrationRepository) {
+
         this.proposalRepository = proposalRepository;
         this.objectMapper = objectMapper;
+        this.preRegistrationRepository = preRegistrationRepository;
     }
 
-    public void createProposal(Proposal proposal) throws URISyntaxException {
+    public void createProposal(Proposal proposal) {
+
         ProposalEntity proposalEntity = objectMapper.convertValue(proposal, ProposalEntity.class);
-        BucketHelper s3 = new BucketHelper();
-        s3.connectS3();
+        var preRegistrationEntity = preRegistrationRepository.findById(proposal.getId()).orElseThrow();
+        preRegistrationEntity.setStatus(Status.UNDER_ANALYSIS_DATA);
+        proposalEntity.setProposal(preRegistrationEntity);
         proposalRepository.save(proposalEntity);
     }
 
     public List<ProposalEntity> getProposals() {
-        List<ProposalEntity> all = proposalRepository.findAll();
-        return all;
+
+        return proposalRepository.findAll();
     }
 
-    public ProposalEntity getProposal(UUID id) {
-        ProposalEntity proposal = proposalRepository.findById(id).orElseThrow();
-        return proposal;
-    }
+    public Proposal getProposal(UUID id) {
 
-    public void updateProposal(UUID id, ProposalEditRequest proposalEditRequest, Status status) {
-        ProposalEntity proposalEntity = objectMapper.convertValue(proposalEditRequest, ProposalEntity.class);
-        proposalEntity.setId(id);
-        proposalEntity.setStatus(status);
-        proposalRepository.save(proposalEntity);
+        return objectMapper.convertValue(proposalRepository.findById(id).orElseThrow(), Proposal.class);
     }
 }

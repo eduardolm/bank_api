@@ -8,7 +8,8 @@ import java.util.UUID;
 @Entity
 @Data
 @Table(name = "files")
-public class FileEntity {
+public class DocumentEntity {
+
     @Id
     @Column(name = "id")
     private UUID id;
@@ -17,5 +18,5 @@ public class FileEntity {
 
     @OneToOne
     @MapsId
-    private ProposalEntity proposal;
+    private PreRegistrationEntity proposal;
 }
