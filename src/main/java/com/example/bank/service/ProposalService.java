@@ -21,7 +21,8 @@ public class ProposalService {
     public ProposalService(
             ProposalRepository proposalRepository,
             ObjectMapper objectMapper,
-            PreRegistrationRepository preRegistrationRepository) {
+            PreRegistrationRepository preRegistrationRepository
+            ) {
 
         this.proposalRepository = proposalRepository;
         this.objectMapper = objectMapper;
@@ -45,5 +46,9 @@ public class ProposalService {
     public Proposal getProposal(UUID id) {
 
         return objectMapper.convertValue(proposalRepository.findById(id).orElseThrow(), Proposal.class);
+    }
+
+    public void updateProposal(Proposal proposal) {
+        proposalRepository.save(objectMapper.convertValue(proposal, ProposalEntity.class));
     }
 }

@@ -8,6 +8,6 @@ import java.util.UUID;
 public class Document {
 
     private UUID id;
-    private Byte[] image;
+    private String imageAddress;
 
 }

@@ -4,7 +4,6 @@ import com.example.bank.controller.request.PreRegistrationEditRequest;
 import com.example.bank.dto.PreRegistration;
 import com.example.bank.entity.PreRegistrationEntity;
 import com.example.bank.enums.Status;
-import com.example.bank.helper.BucketHelper;
 import com.example.bank.repository.PreRegistrationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -18,15 +17,12 @@ public class PreRegistrationService {
 
     private PreRegistrationRepository preRegistrationRepository;
     private ObjectMapper objectMapper;
-    private DocumentService documentService;
 
     public PreRegistrationService(PreRegistrationRepository preRegistrationRepository,
-                                  ObjectMapper objectMapper,
-                                  DocumentService documentService) {
+                                  ObjectMapper objectMapper) {
 
         this.preRegistrationRepository = preRegistrationRepository;
         this.objectMapper = objectMapper;
-        this.documentService = documentService;
     }
 
     public void createPreRegistration(PreRegistration preRegistration) throws FileNotFoundException {
@@ -35,12 +31,7 @@ public class PreRegistrationService {
                 preRegistration,
                 PreRegistrationEntity.class
         );
-        BucketHelper s3 = new BucketHelper();
-        documentService.downloadS3Object("bank-bucket1602877826567", "key");
-        documentService.listBucketObjects(s3.getS3(), "bank-bucket1602877826567");
-//        documentService.uploadFileToS3Bucket(documentService.createBucket(), new File("testando"));
-        var bucketStream = s3.listBucketStream();
-        bucketStream.buckets().stream().forEach(x -> System.out.println(x.name()));
+
         preRegistrationRepository.save(preRegistrationEntity);
     }
 

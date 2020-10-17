@@ -2,21 +2,24 @@ package com.example.bank.entity;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Data
 @Table(name = "files")
-public class DocumentEntity {
+public class DocumentEntity implements Serializable {
 
     @Id
     @Column(name = "id")
     private UUID id;
-    @Lob
-    private Byte[] image;
-
-    @OneToOne
-    @MapsId
-    private PreRegistrationEntity proposal;
+    private String imageAddress;
+//
+//    @OneToOne
+//    @MapsId
+//    private PreRegistrationEntity proposal;
 }

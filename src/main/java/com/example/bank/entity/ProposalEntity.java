@@ -23,7 +23,11 @@ public class ProposalEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private State state;
 
+
     @OneToOne
     @MapsId
     private PreRegistrationEntity proposal;
+
+    @OneToOne
+    private DocumentEntity document;
 }
