@@ -15,6 +15,7 @@ import com.example.bank.repository.ProposalRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -41,6 +42,8 @@ public class DocumentService extends BucketHelper{
     private ProposalRepository proposalRepository;
     private PreRegistrationRepository preRegistrationRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentService.class);
+    @Value("${file.path}")
+    private String filePath;
 
     public DocumentService(ObjectMapper objectMapper,
                            DocumentRepository documentRepository,
@@ -61,7 +64,9 @@ public class DocumentService extends BucketHelper{
                 preRegistration,
                 PreRegistrationEditRequest.class);
         preRegistrationEditRequest.setStatus(Status.UNDER_ANALYSIS_DOCUMENTS);
-        PreRegistrationEntity preRegistrationEntity = objectMapper.convertValue(preRegistrationEditRequest, PreRegistrationEntity.class);
+        PreRegistrationEntity preRegistrationEntity = objectMapper.convertValue(
+                preRegistrationEditRequest, PreRegistrationEntity.class);
+
         preRegistrationRepository.save(preRegistrationEntity);
 
         File file = fileConversion.convertMultiPartToFile(multipartFile);
@@ -70,7 +75,7 @@ public class DocumentService extends BucketHelper{
         String imageAddress = this.uploadFileToS3Bucket(
                 this.createBucket(),
                 file,
-                "E:/repo/bank/src/main/resources/static/CPF.jpg",
+                this.filePath,
                 preRegistrationEditRequest.getId().toString());
 
         document.setImageAddress(imageAddress);
@@ -102,7 +107,8 @@ public class DocumentService extends BucketHelper{
         return bucketList.get(0);
     }
 
-    public String uploadFileToS3Bucket(String bucketName, File file, String filePath, String proposalId) throws FileNotFoundException {
+    public String uploadFileToS3Bucket(String bucketName, File file, String filePath,
+                                       String proposalId) throws FileNotFoundException {
 
         final String uniqueFileName = LocalDateTime.now() + "_" + file.getName();
         LOGGER.info("Uploading file with name= " + uniqueFileName);

@@ -31,8 +31,7 @@ public class DocumentController {
 
     @PostMapping("/{id}")
     public ResponseEntity createDocument(@PathVariable() UUID id,
-                                         @RequestPart(value = "file") MultipartFile file
-    ) throws IOException {
+                                         @RequestPart(value = "file") MultipartFile file) throws IOException {
 
         var preRegistrationEntity = preRegistrationService.getPreRegistration(id);
         documentService.createDocument(objectMapper.convertValue(preRegistrationEntity, PreRegistration.class), file);
