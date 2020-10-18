@@ -22,7 +22,7 @@ public class ProposalReviewController {
     }
 
     @PostMapping
-    public ResponseEntity createProposalReview(ProposalReview proposalReview) {
+    public ResponseEntity createProposalReview(@RequestBody ProposalReview proposalReview) {
 
         var response = proposalReviewService.createProposalReview(proposalReview);
         return ResponseEntity.status(HttpStatus.OK).body(response);

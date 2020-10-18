@@ -48,9 +48,18 @@ public class ProposalReviewService {
         var preRegistrationEntity = preRegistrationRepository
                 .findById(proposalReview.getId()).orElseThrow();
 
+        var proposalEntity = proposalRepository.findById(proposalReview.getId()).orElseThrow();
+        var documentEntity = documentRepository.findById(proposalReview.getId()).orElseThrow();
+
+        proposalReviewEntity.setPreRegistrationEntity(preRegistrationEntity);
+        proposalReviewEntity.setProposalEntity(proposalEntity);
+        proposalReviewEntity.setDocumentEntity(documentEntity);
+
         if (proposalReviewEntity.getAccepted() == Accepted.NO) {
             preRegistrationEntity.setStatus(Status.CANCELLED);
             preRegistrationRepository.save(preRegistrationEntity);
+            proposalReviewEntity.setStatus(Status.CANCELLED);
+            proposalReviewRepository.save(proposalReviewEntity);
             // TODO: Enviar e-mail implorando
             response.put("Code", 200);
             response.put("Status", "OK");
@@ -71,6 +80,7 @@ public class ProposalReviewService {
             response.put("Status", "Created");
             response.put("Mensagem", "Obrigado por escolher o nosso banco! Sua conta será criada.");
         }
+        proposalReviewRepository.save(proposalReviewEntity);
         return response;
     }
 
