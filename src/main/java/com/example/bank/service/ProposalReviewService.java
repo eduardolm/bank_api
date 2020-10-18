@@ -13,6 +13,7 @@ import com.example.bank.repository.ProposalRepository;
 import com.example.bank.repository.ProposalReviewRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -25,18 +26,23 @@ public class ProposalReviewService {
     private DocumentRepository documentRepository;
     private ProposalReviewRepository proposalReviewRepository;
     private ObjectMapper objectMapper;
+    private EmailService emailService;
+    @Value("${email.to}")
+    private String emailRecipient;
 
     public ProposalReviewService(PreRegistrationRepository preRegistrationRepository,
                                  ProposalRepository proposalRepository,
                                  DocumentRepository documentRepository,
                                  ProposalReviewRepository proposalReviewRepository,
-                                 ObjectMapper objectMapper){
+                                 ObjectMapper objectMapper,
+                                 EmailService emailService){
 
         this.preRegistrationRepository = preRegistrationRepository;
         this.proposalRepository = proposalRepository;
         this.documentRepository = documentRepository;
         this.proposalReviewRepository = proposalReviewRepository;
         this.objectMapper = objectMapper;
+        this.emailService = emailService;
     }
 
     public JSONObject createProposalReview(ProposalReview proposalReview) {
@@ -60,7 +66,13 @@ public class ProposalReviewService {
             preRegistrationRepository.save(preRegistrationEntity);
             proposalReviewEntity.setStatus(Status.CANCELLED);
             proposalReviewRepository.save(proposalReviewEntity);
-            // TODO: Enviar e-mail implorando
+
+            emailService.sendSimpleMessage(this.emailRecipient, "Abertura de conta no banco X",
+                    "Ficamos muito tristes por não estar aqui conosco... Essa é uma daquelas escolhas difíceis, " +
+                            "que podem mudar sua vida para sempre. Um banco rápido, inovador, parceiro faz toda a " +
+                            "diferença. Por isso que gostaríamos de pedir outra chance de fazermos " +
+                            "parte de sua vida...");
+
             response.put("Code", 200);
             response.put("Status", "OK");
             response.put("Mensagem", "Ficamos muito tristes que não continuará com a abertura de sua conta. " +
