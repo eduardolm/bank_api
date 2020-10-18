@@ -218,9 +218,9 @@ public class ProposalTest {
     public void testHashCode7() {
         // Arrange
         Proposal proposal = new Proposal();
-        proposal.setState(State.AC);
+        proposal.setState(State.AC.toString());
         Proposal proposal1 = new Proposal();
-        proposal1.setState(State.AC);
+        proposal1.setState(State.AC.toString());
 
         // Act and Assert
         assertEquals(proposal1.hashCode(), proposal.hashCode());
@@ -281,7 +281,7 @@ public class ProposalTest {
         Proposal proposal = new Proposal();
 
         // Act
-        proposal.setState(State.AC);
+        proposal.setState(State.AC.toString());
 
         // Assert
         assertEquals(State.AC, proposal.getState());

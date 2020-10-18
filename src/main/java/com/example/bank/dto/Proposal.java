@@ -1,7 +1,8 @@
 package com.example.bank.dto;
 
-import com.example.bank.config.CEP;
 import com.example.bank.enums.State;
+import com.example.bank.validator.constraints.CEP;
+import com.example.bank.validator.constraints.ValueOfEnum;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -12,15 +13,17 @@ public class Proposal {
 
     private UUID id;
     @NotBlank
-    @CEP(message = "CEP inválido.")
+    @CEP(message = "{zip.notvalid}")
     private String zip;
-    @NotBlank
+    @NotBlank(message = "{street.notblank}")
     private String street;
-    @NotBlank
+    @NotBlank(message = "{neighborhood.notblank}")
     private String neighborhood;
-    @NotBlank
+    @NotBlank(message = "{complement.notblank}")
     private String complement;
-    @NotBlank
+    @NotBlank(message = "{city.notblank}")
     private String city;
-    private State state;
+    @ValueOfEnum(enumClass = State.class, message = "{enum.value}")
+    @NotBlank(message = "{state.notblank}")
+    private String state;
 }

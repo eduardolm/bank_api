@@ -6,13 +6,18 @@ import com.example.bank.entity.DocumentEntity;
 import com.example.bank.service.DocumentService;
 import com.example.bank.service.PreRegistrationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.minidev.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.IOException;
+import java.net.URI;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @RestController
@@ -31,11 +36,39 @@ public class DocumentController {
 
     @PostMapping("/{id}")
     public ResponseEntity createDocument(@PathVariable() UUID id,
-                                         @RequestPart(value = "file") MultipartFile file) throws IOException {
+                                         @RequestPart(value = "file") MultipartFile file) throws Exception {
 
-        var preRegistrationEntity = preRegistrationService.getPreRegistration(id);
-        documentService.createDocument(objectMapper.convertValue(preRegistrationEntity, PreRegistration.class), file);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        JSONObject json = new JSONObject();
+        try {
+            var preRegistrationEntity = preRegistrationService.getPreRegistration(id);
+            documentService.createDocument(objectMapper.convertValue(preRegistrationEntity, PreRegistration.class), file);
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .replacePath("/v1/review")
+                    .build()
+                    .toUri();
+            return ResponseEntity.created(location).build();
+        }
+        catch (NoSuchElementException ex) {
+            json.put("Error", "Not Found");
+            json.put("Code", 404);
+            json.put("Mensagem", "Não existe proposta associada a este arquivo.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
+        }
+        catch (MultipartException | MissingServletRequestPartException ex) {
+            json.put("Error","Bad Request");
+            json.put("Code", 400);
+            json.put("Mensagem", "Arquivo não encontrado ou inválido.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
+        }
+        catch (Exception ex) {
+            json.put("Error","Unprocessable Entity");
+            json.put("Code", 422);
+            json.put("Mensagem", "Não foi possível processar sua solicitação. Se o erro persistir, entre em contato " +
+                    "com a equipe de TI do banco.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
+
     }
 
     @GetMapping

@@ -5,12 +5,13 @@ import com.example.bank.dto.PreRegistration;
 import com.example.bank.entity.PreRegistrationEntity;
 import com.example.bank.enums.Status;
 import com.example.bank.repository.PreRegistrationRepository;
+import com.example.bank.validator.CustomValidators;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.UUID;
+
 
 @Service
 public class PreRegistrationService {
@@ -25,14 +26,18 @@ public class PreRegistrationService {
         this.objectMapper = objectMapper;
     }
 
-    public void createPreRegistration(PreRegistration preRegistration) throws FileNotFoundException {
+    public void createPreRegistration(PreRegistration preRegistration) throws Exception {
 
         PreRegistrationEntity preRegistrationEntity = objectMapper.convertValue(
                 preRegistration,
                 PreRegistrationEntity.class
         );
+        if (CustomValidators.validadeAge(preRegistration.getBirthDate())) {
+            preRegistrationRepository.save(preRegistrationEntity);
+        } else {
+            throw new Exception("É preciso ter mais de 18 anos para abrir uma conta.");
+        }
 
-        preRegistrationRepository.save(preRegistrationEntity);
     }
 
     public List<PreRegistrationEntity> getPreRegistrations() {

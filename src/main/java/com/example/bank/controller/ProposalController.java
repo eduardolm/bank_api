@@ -4,11 +4,14 @@ import com.example.bank.dto.Proposal;
 import com.example.bank.entity.ProposalEntity;
 import com.example.bank.service.ProposalService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.minidev.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,7 +45,20 @@ public class ProposalController {
     @PostMapping
     public ResponseEntity createProposal(@Valid @RequestBody Proposal proposal) {
 
-        proposalService.createProposal(proposal);;
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        try {
+            proposalService.createProposal(proposal);
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .replacePath("/v1/document")
+                    .build()
+                    .toUri();
+
+            return ResponseEntity.created(location).build();
+        }
+        catch (Exception ex) {
+            JSONObject json = new JSONObject();
+            json.put("Mensagem", ex.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
+        }
     }
 }

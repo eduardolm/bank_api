@@ -5,12 +5,14 @@ import com.example.bank.dto.PreRegistration;
 import com.example.bank.entity.PreRegistrationEntity;
 import com.example.bank.service.PreRegistrationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.minidev.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.io.FileNotFoundException;
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,10 +44,25 @@ public class PreRegistrationController {
     }
 
     @PostMapping
-    public ResponseEntity createPreRegistration(@Valid @RequestBody PreRegistration preRegistration) throws FileNotFoundException {
+    public ResponseEntity createPreRegistration(@Valid @RequestBody PreRegistration preRegistration) {
 
-        preRegistrationService.createPreRegistration(preRegistration);;
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        try {
+            preRegistrationService.createPreRegistration(preRegistration);
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .replacePath("/v1/proposal")
+                    .build()
+                    .toUri();
+            return ResponseEntity.created(location).build();
+        } catch (Exception ex) {
+            JSONObject jsonObject = new JSONObject();
+            if (ex.getMessage() == "É preciso ter mais de 18 anos para abrir uma conta.") {
+                jsonObject.put("Mensagem", ex.getMessage());
+            } else{
+                jsonObject.put("Erro", "Dados já existem em nossos cadastros.");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject);
+        }
     }
 
     @PutMapping("/{id}")
