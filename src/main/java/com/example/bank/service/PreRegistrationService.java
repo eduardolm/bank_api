@@ -32,7 +32,7 @@ public class PreRegistrationService {
                 preRegistration,
                 PreRegistrationEntity.class
         );
-        if (CustomValidators.validadeAge(preRegistration.getBirthDate())) {
+        if (CustomValidators.validateAge(preRegistration.getBirthDate())) {
             preRegistrationRepository.save(preRegistrationEntity);
         } else {
             throw new Exception("É preciso ter mais de 18 anos para abrir uma conta.");

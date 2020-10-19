@@ -54,7 +54,8 @@ public class PreRegistrationController {
                     .build()
                     .toUri();
             return ResponseEntity.created(location).build();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             JSONObject jsonObject = new JSONObject();
             if (ex.getMessage() == "É preciso ter mais de 18 anos para abrir uma conta.") {
                 jsonObject.put("Message", ex.getMessage());

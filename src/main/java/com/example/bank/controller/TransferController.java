@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("v1/transfer")
 public class TransferController {
@@ -20,9 +22,12 @@ public class TransferController {
 
     @PostMapping
     @Async
-    public ResponseEntity createTransfer(@RequestBody Transfer transfer) {
+    public ResponseEntity createTransfer(@Valid @RequestBody Transfer transfer) throws Exception {
 
         var response = transferService.createTransfer(transfer);
+        if (response.containsValue(400)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
