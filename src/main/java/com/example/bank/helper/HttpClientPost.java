@@ -21,7 +21,7 @@ public class HttpClientPost {
         this.proposalReviewRepository = proposalReviewRepository;
     }
 
-    public HttpResponse<String> sendPostRequest(UUID id) throws IOException, InterruptedException {
+    public Integer sendPostRequest(UUID id) throws IOException, InterruptedException {
 
         String requestBody = objectMapper.writeValueAsString(objectMapper
                 .convertValue(proposalReviewRepository.findById(id).orElseThrow(), ProposalReview.class));
@@ -34,6 +34,6 @@ public class HttpClientPost {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        return response;
+        return response.statusCode();
     }
 }

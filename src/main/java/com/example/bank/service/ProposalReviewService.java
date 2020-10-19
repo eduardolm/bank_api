@@ -96,11 +96,16 @@ public class ProposalReviewService {
                             "sua caixa de e-mails, para maiores informações. Agradecemos a preferência. S" +
                             "eja MUITO bem-vindo(a).");
 
-            var postResponse = clientPost.sendPostRequest(proposalReviewEntity.getId());
+            for (var i = 0; i < 3; i++) {
+                if (clientPost.sendPostRequest(proposalReviewEntity.getId()) == 200) {
+                    break;
+                }
+            }
 
             response.put("Code", 200);
             response.put("Status", "Created");
             response.put("Mensagem", "Obrigado por escolher o nosso banco! Sua conta será criada.");
+
         }
         proposalReviewRepository.save(proposalReviewEntity);
         return response;
