@@ -1,4 +1,4 @@
-package com.example.bank.config;
+package com.example.bank.validator.constraints;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

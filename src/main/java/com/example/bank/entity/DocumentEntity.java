@@ -18,8 +18,4 @@ public class DocumentEntity implements Serializable {
     @Column(name = "id")
     private UUID id;
     private String imageAddress;
-//
-//    @OneToOne
-//    @MapsId
-//    private PreRegistrationEntity proposal;
 }

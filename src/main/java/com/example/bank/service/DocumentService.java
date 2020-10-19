@@ -56,13 +56,18 @@ public class DocumentService extends BucketHelper{
         this.preRegistrationRepository = preRegistrationRepository;
     }
 
-    public void createDocument(PreRegistration preRegistration, MultipartFile multipartFile) throws IOException {
+    public void createDocument(PreRegistration preRegistration, MultipartFile multipartFile) throws Exception {
 
         FileConversion fileConversion = new FileConversion();
         Document document = new Document();
+
+        preRegistrationRepository.findById(preRegistration.getId()).orElseThrow();
+        proposalRepository.findById(preRegistration.getId()).orElseThrow();
+
         PreRegistrationEditRequest preRegistrationEditRequest = objectMapper.convertValue(
                 preRegistration,
                 PreRegistrationEditRequest.class);
+
         preRegistrationEditRequest.setStatus(Status.UNDER_ANALYSIS_DOCUMENTS);
         PreRegistrationEntity preRegistrationEntity = objectMapper.convertValue(
                 preRegistrationEditRequest, PreRegistrationEntity.class);
