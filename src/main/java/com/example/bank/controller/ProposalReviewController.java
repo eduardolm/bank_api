@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @RestController
@@ -22,7 +23,7 @@ public class ProposalReviewController {
     }
 
     @PostMapping
-    public ResponseEntity createProposalReview(@RequestBody ProposalReview proposalReview) {
+    public ResponseEntity createProposalReview(@RequestBody ProposalReview proposalReview) throws IOException, InterruptedException {
 
         var response = proposalReviewService.createProposalReview(proposalReview);
         return ResponseEntity.status(HttpStatus.OK).body(response);
