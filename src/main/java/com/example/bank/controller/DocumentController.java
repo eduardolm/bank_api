@@ -28,7 +28,10 @@ public class DocumentController {
     private PreRegistrationService preRegistrationService;
     private ObjectMapper objectMapper;
 
-    public DocumentController(DocumentService documentService, PreRegistrationService preRegistrationService, ObjectMapper objectMapper) {
+    public DocumentController(DocumentService documentService,
+                              PreRegistrationService preRegistrationService,
+                              ObjectMapper objectMapper) {
+
         this.documentService = documentService;
         this.preRegistrationService = preRegistrationService;
         this.objectMapper = objectMapper;
@@ -41,7 +44,9 @@ public class DocumentController {
         JSONObject json = new JSONObject();
         try {
             var preRegistrationEntity = preRegistrationService.getPreRegistration(id);
-            documentService.createDocument(objectMapper.convertValue(preRegistrationEntity, PreRegistration.class), file);
+            documentService.createDocument(objectMapper.convertValue(preRegistrationEntity,
+                    PreRegistration.class), file);
+
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .replacePath("/v1/review")
