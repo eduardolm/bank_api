@@ -52,19 +52,19 @@ public class DocumentController {
         catch (NoSuchElementException ex) {
             json.put("Error", "Not Found");
             json.put("Code", 404);
-            json.put("Mensagem", "Não existe proposta associada a este arquivo.");
+            json.put("Message", "Não existe proposta associada a este arquivo.");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
         }
         catch (MultipartException | MissingServletRequestPartException ex) {
             json.put("Error","Bad Request");
             json.put("Code", 400);
-            json.put("Mensagem", "Arquivo não encontrado ou inválido.");
+            json.put("Message", "Arquivo não encontrado ou inválido.");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
         }
         catch (Exception ex) {
             json.put("Error","Unprocessable Entity");
             json.put("Code", 422);
-            json.put("Mensagem", "Não foi possível processar sua solicitação. Se o erro persistir, entre em contato " +
+            json.put("Message", "Não foi possível processar sua solicitação. Se o erro persistir, entre em contato " +
                     "com a equipe de TI do banco.");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }

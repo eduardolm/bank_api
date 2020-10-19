@@ -22,7 +22,7 @@ public class HttpMessageNotReadableExceptionHandler {
         JSONObject json = new JSONObject();
         json.put("Code", 400);
         json.put("Erro", "Bad Request");
-        json.put("Mensagem", "Estado inválido. Favor verificar." );
+        json.put("Message", "Estado inválido. Favor verificar." );
         return new ResponseEntity(json, HttpStatus.BAD_REQUEST);
     }
 

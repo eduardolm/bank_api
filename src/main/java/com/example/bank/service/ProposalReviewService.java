@@ -15,6 +15,7 @@ import com.example.bank.repository.ProposalReviewRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -80,7 +81,7 @@ public class ProposalReviewService {
 
             response.put("Code", 200);
             response.put("Status", "OK");
-            response.put("Mensagem", "Ficamos muito tristes que não continuará com a abertura de sua conta. " +
+            response.put("Message", "Ficamos muito tristes que não continuará com a abertura de sua conta. " +
                     "Gostaríamos muito de tê-lo aqui conosco!");
 
         }
@@ -97,14 +98,14 @@ public class ProposalReviewService {
                             "eja MUITO bem-vindo(a).");
 
             for (var i = 0; i < 3; i++) {
-                if (clientPost.sendPostRequest(proposalReviewEntity.getId()) == 200) {
+                if (clientPost.sendPostRequest(proposalReviewEntity.getId()).equals(HttpStatus.OK)) {
                     break;
                 }
             }
 
             response.put("Code", 200);
             response.put("Status", "Created");
-            response.put("Mensagem", "Obrigado por escolher o nosso banco! Sua conta será criada.");
+            response.put("Message", "Obrigado por escolher o nosso banco! Sua conta será criada.");
 
         }
         proposalReviewRepository.save(proposalReviewEntity);
