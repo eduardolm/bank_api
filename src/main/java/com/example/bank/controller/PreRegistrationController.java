@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("v1/registration")
+@RequestMapping("v1/registrations")
 public class PreRegistrationController {
 
     private PreRegistrationService preRegistrationService;
@@ -50,7 +50,7 @@ public class PreRegistrationController {
             preRegistrationService.createPreRegistration(preRegistration);
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
-                    .replacePath("/v1/proposal")
+                    .replacePath("/v1/proposals")
                     .build()
                     .toUri();
             return ResponseEntity.created(location).build();

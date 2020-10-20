@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("v1/proposal")
+@RequestMapping("v1/proposals")
 public class ProposalController {
 
     private ProposalService proposalService;
@@ -49,7 +49,7 @@ public class ProposalController {
             proposalService.createProposal(proposal);
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
-                    .replacePath("/v1/document")
+                    .replacePath("/v1/documents")
                     .build()
                     .toUri();
 

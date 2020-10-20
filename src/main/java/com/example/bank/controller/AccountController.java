@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("v1/account")
+@RequestMapping("v1/accounts")
 public class AccountController {
 
     private AccountService accountService;

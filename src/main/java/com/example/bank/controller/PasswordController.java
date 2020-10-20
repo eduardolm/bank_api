@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("v1/password")
+@RequestMapping("v1/passwords")
 public class PasswordController {
 
     private PasswordService passwordService;

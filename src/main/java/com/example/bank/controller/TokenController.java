@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("v1/token")
+@RequestMapping("v1/tokens")
 public class TokenController {
 
     private TokenService tokenService;
