@@ -8,12 +8,14 @@ import com.example.bank.helper.TokenHelper;
 import com.example.bank.repository.PasswordRepository;
 import com.example.bank.repository.PreRegistrationRepository;
 import com.example.bank.repository.TokenRepository;
+import com.example.bank.security.CryptoConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class PasswordService {
@@ -41,6 +43,7 @@ public class PasswordService {
 
     public JSONObject createPassword(Token token) {
 
+        CryptoConverter crypto = new CryptoConverter();
         JSONObject response = new JSONObject();
         var tokenEntity = objectMapper.convertValue(token, TokenEntity.class);
         var preRegistrationEntity = preRegistrationRepository.findById(token.getId()).orElseThrow();
@@ -63,7 +66,7 @@ public class PasswordService {
 
             TokenHelper tokenHelper = new TokenHelper();
             passwordEntity.setId(preRegistrationEntity.getId());
-            passwordEntity.setPassword(tokenHelper.generateStrongPassword());
+            passwordEntity.setPassword(crypto.convertToDatabaseColumn(tokenHelper.generateStrongPassword()));
             passwordEntity.setProposal(preRegistrationEntity);
             passwordRepository.save(passwordEntity);
 
@@ -86,6 +89,17 @@ public class PasswordService {
             response.put("Message", "Senha gerada com sucesso.");
 
         }
+        return response;
+    }
+
+    public JSONObject getPassword(UUID id) {
+
+        CryptoConverter crypto = new CryptoConverter();
+        JSONObject response = new JSONObject();
+        var passwordEntity = passwordRepository.findById(id).orElseThrow();
+        response.put("Code", 200);
+        response.put("Status", "Ok");
+        response.put("Password", crypto.convertToEntityAttribute(passwordEntity.getPassword()));
         return response;
     }
 }
