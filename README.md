@@ -78,4 +78,6 @@ As configurações de ambiente devem ser colocadas no arquivo application.proper
 
 Com todos os requisitos e a API em execução, pode-se utilizar o Postman para fazer as requisições aos endpoints da API.
 
+Para maiores informações sobre os endpoints e os payloads passados, favor ler a documentação completa em:
+`docs\DOCUMENTATION.md`
 
