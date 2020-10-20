@@ -39,7 +39,7 @@ public class ProposalReviewController {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("Code", 422);
             jsonObject.put("Error", "Unprocessable Entity");
-            jsonObject.put("Mensagem", "As etapas anteriores precisam ser finalizadas antes do aceite da proposta.");
+            jsonObject.put("Message", "As etapas anteriores precisam ser finalizadas antes do aceite da proposta.");
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(jsonObject);
         }
     }

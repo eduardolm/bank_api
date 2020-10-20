@@ -57,7 +57,7 @@ public class ProposalController {
         }
         catch (Exception ex) {
             JSONObject json = new JSONObject();
-            json.put("Mensagem", ex.getMessage());
+            json.put("Message", ex.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
         }
     }
