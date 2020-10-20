@@ -17,5 +17,6 @@ public class DocumentEntity implements Serializable {
     @Id
     @Column(name = "id")
     private UUID id;
+    @Column
     private String imageAddress;
 }

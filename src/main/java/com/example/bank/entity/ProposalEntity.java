@@ -15,12 +15,18 @@ public class ProposalEntity implements Serializable {
     @Id
     @Column(name = "id")
     private UUID id;
+    @Column
     private String zip;
+    @Column
     private String street;
+    @Column
     private String neighborhood;
+    @Column
     private String complement;
+    @Column
     private String city;
     @Enumerated(EnumType.STRING)
+    @Column
     private State state;
 
 

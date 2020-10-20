@@ -13,7 +13,7 @@ public class PasswordEntity {
     @Id
     @Column(name = "id")
     private UUID id;
-//    @Type(type = "encryptedString")
+    @Column
     private String password;
 
     @OneToOne
