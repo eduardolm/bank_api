@@ -1,31 +1,33 @@
 package com.example.bank.service;
 
-import com.example.bank.entity.RequestTokenEntity;
+import com.example.bank.entity.TokenEntity;
+import com.example.bank.enums.Used;
 import com.example.bank.helper.TokenHelper;
 import com.example.bank.repository.PreRegistrationRepository;
-import com.example.bank.repository.RequestTokenRepository;
+import com.example.bank.repository.TokenRepository;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
-public class RequestTokenService {
+public class TokenService {
 
     private PreRegistrationRepository preRegistrationRepository;
     private EmailService emailService;
-    private RequestTokenRepository requestTokenRepository;
+    private TokenRepository tokenRepository;
     @Value("${email.to}")
     private String emailRecipient;
 
-    public RequestTokenService(PreRegistrationRepository preRegistrationRepository,
-                               EmailService emailService,
-                               RequestTokenRepository requestTokenRepository) {
+    public TokenService(PreRegistrationRepository preRegistrationRepository,
+                        EmailService emailService,
+                        TokenRepository tokenRepository) {
 
         this.preRegistrationRepository = preRegistrationRepository;
         this.emailService = emailService;
-        this.requestTokenRepository = requestTokenRepository;
+        this.tokenRepository = tokenRepository;
     }
 
     public JSONObject createToken(String email, String cpf) {
@@ -39,12 +41,13 @@ public class RequestTokenService {
             if (item.getCpf().equals(cpf) && item.getEmail().equals(email)) {
 
                 var userToken = token.generateRandomToken(6, true, true);
-                RequestTokenEntity requestTokenEntity = new RequestTokenEntity();
-                requestTokenEntity.setId(item.getId());
-                requestTokenEntity.setToken(userToken.get("Token").toString());
-                requestTokenEntity.setExpires((LocalDateTime) userToken.get("Expires"));
-                requestTokenEntity.setProposal(item);
-                requestTokenRepository.save(requestTokenEntity);
+                TokenEntity tokenEntity = new TokenEntity();
+                tokenEntity.setId(item.getId());
+                tokenEntity.setToken(userToken.get("Token").toString());
+                tokenEntity.setExpires((LocalDateTime) userToken.get("Expires"));
+                tokenEntity.setUsed(Used.NO);
+                tokenEntity.setProposal(item);
+                tokenRepository.save(tokenEntity);
 
                 emailService.sendSimpleMessage(this.emailRecipient, "Procedimento de Segurança - Banco X",
                         "Este e-mail foi gerado automaticamente por nossos servidores, quando tentou " +
@@ -66,6 +69,11 @@ public class RequestTokenService {
             }
         }
         return response;
+    }
+
+    public TokenEntity getToken(UUID id) {
+
+        return tokenRepository.findById(id).orElseThrow();
     }
 
 }

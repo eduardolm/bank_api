@@ -17,18 +17,14 @@ public class PreRegistrationEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
-//    @Type(type = "encryptedString")
     @Column(nullable = false)
     private String firstName;
-//    @Type(type = "encryptedString")
     @Column(nullable = false)
     private String lastName;
-//    @Type(type = "encryptedString")
     @Column(unique = true, nullable = false)
     private String email;
     @Column(nullable = false)
     private LocalDate birthDate;
-//    @Type(type = "encryptedString")
     @Column(unique = true, nullable = false)
     private String cpf;
     @Column(nullable = false)
