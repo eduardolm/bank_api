@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("v1/transfer")
+@RequestMapping("v1/transfers")
 public class TransferController {
 
     private TransferService transferService;

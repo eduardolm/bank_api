@@ -18,7 +18,6 @@ public class CryptoConverter implements AttributeConverter<String, String> {
 
     @Override
     public String convertToDatabaseColumn(String inputValue) {
-        // do some encryption
         Key key = new SecretKeySpec(KEY, "AES");
         try {
             Cipher c = Cipher.getInstance(ALGORITHM);
@@ -31,12 +30,10 @@ public class CryptoConverter implements AttributeConverter<String, String> {
 
     @Override
     public String convertToEntityAttribute(String dbData) {
-        // do some decryption
         Key key = new SecretKeySpec(KEY, "AES");
         try {
             Cipher c = Cipher.getInstance(ALGORITHM);
             c.init(Cipher.DECRYPT_MODE, key);
-            //byte[] decodedBytes = Base64.getDecoder().decode(dbData);
             return new String(c.doFinal(Base64.getDecoder().decode(dbData)));
         } catch (Exception e) {
             throw new RuntimeException(e);
