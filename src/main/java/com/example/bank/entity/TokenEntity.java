@@ -15,9 +15,12 @@ public class TokenEntity {
     @Id
     @Column(name = "id")
     private UUID id;
+    @Column
     private String token;
+    @Column
     private LocalDateTime expires;
     @Enumerated(EnumType.STRING)
+    @Column
     private Used used;
 
     @OneToOne

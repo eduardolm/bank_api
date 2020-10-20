@@ -152,9 +152,8 @@ public class PreRegistrationTest {
     @Test
     public void testHashCode() {
         // Arrange, Act and Assert
-        int test1 = new PreRegistration().hashCode();
-        int test2 = new PreRegistration().hashCode();
-        assertEquals(test2, test1);
+        PreRegistration preRegistration = new PreRegistration();
+        assertEquals(preRegistration.hashCode(), (new PreRegistration()).hashCode());
     }
 
     @Test
@@ -162,7 +161,6 @@ public class PreRegistrationTest {
         // Arrange
         PreRegistration preRegistration = new PreRegistration();
         preRegistration.setLastName("Doe");
-
         PreRegistration preRegistration1 = new PreRegistration();
         preRegistration1.setLastName("Doe");
 
@@ -198,6 +196,7 @@ public class PreRegistrationTest {
         LocalDate birthDate = LocalDate.ofEpochDay(1L);
         PreRegistration preRegistration = new PreRegistration();
         preRegistration.setBirthDate(birthDate);
+        LocalDate birthDate1 = LocalDate.ofEpochDay(1L);
         PreRegistration preRegistration1 = new PreRegistration();
         preRegistration1.setBirthDate(birthDate);
 
