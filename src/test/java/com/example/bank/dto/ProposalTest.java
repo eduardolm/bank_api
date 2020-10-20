@@ -1,6 +1,5 @@
 package com.example.bank.dto;
 
-import com.example.bank.enums.State;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -70,17 +69,17 @@ public class ProposalTest {
     public void testEquals5() {
         // Arrange
         Proposal proposal = new Proposal();
-        proposal.setZip("21654");
+        proposal.setState("MD");
 
         // Act and Assert
-        assertFalse((new Proposal()).equals(proposal));
+        assertFalse(proposal.equals(new Proposal()));
     }
 
     @Test
     public void testEquals6() {
         // Arrange
         Proposal proposal = new Proposal();
-        proposal.setCity("Oxford");
+        proposal.setZip("21654");
 
         // Act and Assert
         assertFalse((new Proposal()).equals(proposal));
@@ -90,27 +89,27 @@ public class ProposalTest {
     public void testEquals7() {
         // Arrange
         Proposal proposal = new Proposal();
-        proposal.setNeighborhood("Neighborhood");
+        proposal.setCity("Oxford");
 
         // Act and Assert
-        assertFalse(proposal.equals(new Proposal()));
+        assertFalse((new Proposal()).equals(proposal));
     }
 
     @Test
     public void testEquals8() {
         // Arrange
         Proposal proposal = new Proposal();
-        proposal.setComplement("Complement");
+        proposal.setState("MD");
 
         // Act and Assert
-        assertFalse(proposal.equals(new Proposal()));
+        assertFalse((new Proposal()).equals(proposal));
     }
 
     @Test
     public void testEquals9() {
         // Arrange
         Proposal proposal = new Proposal();
-        proposal.setId(UUID.randomUUID());
+        proposal.setNeighborhood("Neighborhood");
 
         // Act and Assert
         assertFalse(proposal.equals(new Proposal()));
@@ -188,6 +187,16 @@ public class ProposalTest {
     public void testHashCode4() {
         // Arrange
         Proposal proposal = new Proposal();
+        proposal.setState("MD");
+
+        // Act and Assert
+        assertEquals(64207070, proposal.hashCode());
+    }
+
+    @Test
+    public void testHashCode5() {
+        // Arrange
+        Proposal proposal = new Proposal();
         proposal.setNeighborhood("Neighborhood");
 
         // Act and Assert
@@ -195,7 +204,7 @@ public class ProposalTest {
     }
 
     @Test
-    public void testHashCode5() {
+    public void testHashCode6() {
         // Arrange
         Proposal proposal = new Proposal();
         proposal.setComplement("Complement");
@@ -205,25 +214,13 @@ public class ProposalTest {
     }
 
     @Test
-    public void testHashCode6() {
+    public void testHashCode7() {
         // Arrange
         Proposal proposal = new Proposal();
         proposal.setStreet("Street");
 
         // Act and Assert
         assertEquals(-1553137686, proposal.hashCode());
-    }
-
-    @Test
-    public void testHashCode7() {
-        // Arrange
-        Proposal proposal = new Proposal();
-        proposal.setState(State.AC.toString());
-        Proposal proposal1 = new Proposal();
-        proposal1.setState(State.AC.toString());
-
-        // Act and Assert
-        assertEquals(proposal1.hashCode(), proposal.hashCode());
     }
 
     @Test
@@ -281,10 +278,10 @@ public class ProposalTest {
         Proposal proposal = new Proposal();
 
         // Act
-        proposal.setState(State.AC.toString());
+        proposal.setState("MD");
 
         // Assert
-        assertEquals(State.AC, proposal.getState());
+        assertEquals("MD", proposal.getState());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.example.bank.controller;
 
-import com.example.bank.entity.PreRegistrationEntity;
+import com.example.bank.entity.AccountEntity;
+import com.example.bank.service.AccountService;
 import com.example.bank.service.PreRegistrationService;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
@@ -18,7 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-public class PreRegistrationControllerTest {
+public class AccountControllerTest {
+    @Autowired
+    private AccountService accountService;
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -27,12 +30,11 @@ public class PreRegistrationControllerTest {
     @Test
     public void testConstructor() {
         // Arrange and Act
-        new PreRegistrationController(this.preRegistrationService, this.objectMapper);
+        new AccountController(this.accountService, this.objectMapper, this.preRegistrationService);
 
         // Assert
-        List<PreRegistrationEntity> preRegistrations = this.preRegistrationService.getPreRegistrations();
-        assertTrue(preRegistrations instanceof java.util.List);
-        assertEquals(0, preRegistrations.size());
+        List<AccountEntity> accounts = this.accountService.getAccounts();
+        assertEquals(0, accounts.size());
         assertNull(this.objectMapper.getInjectableValues());
         assertTrue(
                 this.objectMapper.getSerializerFactory() instanceof com.fasterxml.jackson.databind.ser.BeanSerializerFactory);

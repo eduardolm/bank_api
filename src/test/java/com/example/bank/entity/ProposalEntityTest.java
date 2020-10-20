@@ -26,12 +26,13 @@ public class ProposalEntityTest {
         assertNull(actualProposalEntity.getComplement());
         assertNull(actualProposalEntity.getNeighborhood());
         assertNull(actualProposalEntity.getCity());
+        assertNull(actualProposalEntity.getDocument());
         assertNull(actualProposalEntity.getZip());
         assertNull(actualProposalEntity.getId());
         assertNull(actualProposalEntity.getState());
         assertEquals(
                 "ProposalEntity(id=null, zip=null, street=null, neighborhood=null, complement=null, city=null, state=null,"
-                        + " proposal=null)",
+                        + " proposal=null, document=null)",
                 actualProposalEntity.toString());
         assertNull(actualProposalEntity.getStreet());
     }
@@ -60,6 +61,10 @@ public class ProposalEntityTest {
         proposalEntity.setProposal(preRegistrationEntity);
         proposalEntity.setZip("21654");
         proposalEntity.setCity("Oxford");
+        DocumentEntity documentEntity = new DocumentEntity();
+        documentEntity.setImageAddress("42 Main St");
+        documentEntity.setId(UUID.randomUUID());
+        proposalEntity.setDocument(documentEntity);
         proposalEntity.setStreet("Street");
         proposalEntity.setState(State.AC);
 
@@ -85,6 +90,10 @@ public class ProposalEntityTest {
         proposalEntity.setProposal(preRegistrationEntity);
         proposalEntity.setZip("21654");
         proposalEntity.setCity("Oxford");
+        DocumentEntity documentEntity = new DocumentEntity();
+        documentEntity.setImageAddress("42 Main St");
+        documentEntity.setId(UUID.randomUUID());
+        proposalEntity.setDocument(documentEntity);
         proposalEntity.setStreet("Street");
         proposalEntity.setState(State.AC);
 
@@ -110,6 +119,10 @@ public class ProposalEntityTest {
         proposalEntity.setProposal(preRegistrationEntity);
         proposalEntity.setZip(null);
         proposalEntity.setCity("Oxford");
+        DocumentEntity documentEntity = new DocumentEntity();
+        documentEntity.setImageAddress("42 Main St");
+        documentEntity.setId(UUID.randomUUID());
+        proposalEntity.setDocument(documentEntity);
         proposalEntity.setStreet("Street");
         proposalEntity.setState(State.AC);
 
@@ -137,36 +150,15 @@ public class ProposalEntityTest {
         proposalEntity1.setProposal(preRegistrationEntity);
         proposalEntity1.setZip("21654");
         proposalEntity1.setCity("Oxford");
+        DocumentEntity documentEntity = new DocumentEntity();
+        documentEntity.setImageAddress("42 Main St");
+        documentEntity.setId(UUID.randomUUID());
+        proposalEntity1.setDocument(documentEntity);
         proposalEntity1.setStreet("Street");
         proposalEntity1.setState(State.AC);
 
         // Act and Assert
         assertFalse(proposalEntity.equals(proposalEntity1));
-    }
-
-    @Test
-    public void testEquals6() {
-        // Arrange
-        ProposalEntity proposalEntity = new ProposalEntity();
-        proposalEntity.setNeighborhood("Neighborhood");
-        proposalEntity.setComplement("Complement");
-        proposalEntity.setId(null);
-        PreRegistrationEntity preRegistrationEntity = new PreRegistrationEntity();
-        preRegistrationEntity.setLastName("Doe");
-        preRegistrationEntity.setStatus(Status.UNDER_PRE_ANALYSIS);
-        preRegistrationEntity.setBirthDate(LocalDate.ofEpochDay(1L));
-        preRegistrationEntity.setEmail("Email");
-        preRegistrationEntity.setId(UUID.randomUUID());
-        preRegistrationEntity.setCpf("Cpf");
-        preRegistrationEntity.setFirstName("Jane");
-        proposalEntity.setProposal(preRegistrationEntity);
-        proposalEntity.setZip(null);
-        proposalEntity.setCity("Oxford");
-        proposalEntity.setStreet(null);
-        proposalEntity.setState(State.AC);
-
-        // Act and Assert
-        assertFalse((new ProposalEntity()).equals(proposalEntity));
     }
 
     @Test
@@ -179,6 +171,12 @@ public class ProposalEntityTest {
     public void testGetComplement() {
         // Arrange, Act and Assert
         assertNull((new ProposalEntity()).getComplement());
+    }
+
+    @Test
+    public void testGetDocument() {
+        // Arrange, Act and Assert
+        assertNull((new ProposalEntity()).getDocument());
     }
 
     @Test
@@ -220,7 +218,7 @@ public class ProposalEntityTest {
     @Test
     public void testHashCode() {
         // Arrange, Act and Assert
-        assertEquals(-506892431, (new ProposalEntity()).hashCode());
+        assertEquals(158117686, (new ProposalEntity()).hashCode());
     }
 
     @Test
@@ -238,7 +236,7 @@ public class ProposalEntityTest {
         proposalEntity.setProposal(preRegistrationEntity);
 
         // Act and Assert
-        assertEquals(2145362616, proposalEntity.hashCode());
+        assertEquals(2022342803, proposalEntity.hashCode());
     }
 
     @Test
@@ -248,7 +246,7 @@ public class ProposalEntityTest {
         proposalEntity.setZip("21654");
 
         // Act and Assert
-        assertEquals(907073236, proposalEntity.hashCode());
+        assertEquals(1977713415, proposalEntity.hashCode());
     }
 
     @Test
@@ -258,41 +256,54 @@ public class ProposalEntityTest {
         proposalEntity.setCity("Oxford");
 
         // Act and Assert
-        assertEquals(1403624802, proposalEntity.hashCode());
+        assertEquals(1209484737, proposalEntity.hashCode());
     }
 
     @Test
     public void testHashCode5() {
         // Arrange
+        DocumentEntity documentEntity = new DocumentEntity();
+        documentEntity.setImageAddress("42 Main St");
+        documentEntity.setId(null);
         ProposalEntity proposalEntity = new ProposalEntity();
-        proposalEntity.setNeighborhood("Neighborhood");
+        proposalEntity.setDocument(documentEntity);
 
         // Act and Assert
-        assertEquals(1439050436, proposalEntity.hashCode());
+        assertEquals(781916435, proposalEntity.hashCode());
     }
 
     @Test
     public void testHashCode6() {
         // Arrange
         ProposalEntity proposalEntity = new ProposalEntity();
-        proposalEntity.setComplement("Complement");
+        proposalEntity.setNeighborhood("Neighborhood");
 
         // Act and Assert
-        assertEquals(-1205333374, proposalEntity.hashCode());
+        assertEquals(-995370153, proposalEntity.hashCode());
     }
 
     @Test
     public void testHashCode7() {
         // Arrange
         ProposalEntity proposalEntity = new ProposalEntity();
-        proposalEntity.setStreet("Street");
+        proposalEntity.setComplement("Complement");
 
         // Act and Assert
-        assertEquals(-1440810215, proposalEntity.hashCode());
+        assertEquals(1899775009, proposalEntity.hashCode());
     }
 
     @Test
     public void testHashCode8() {
+        // Arrange
+        ProposalEntity proposalEntity = new ProposalEntity();
+        proposalEntity.setStreet("Street");
+
+        // Act and Assert
+        assertEquals(891543278, proposalEntity.hashCode());
+    }
+
+    @Test
+    public void testHashCode9() {
         // Arrange
         ProposalEntity proposalEntity = new ProposalEntity();
         proposalEntity.setState(State.AC);
@@ -325,6 +336,21 @@ public class ProposalEntityTest {
 
         // Assert
         assertEquals("Complement", proposalEntity.getComplement());
+    }
+
+    @Test
+    public void testSetDocument() {
+        // Arrange
+        ProposalEntity proposalEntity = new ProposalEntity();
+
+        // Act
+        proposalEntity.setDocument(new DocumentEntity());
+
+        // Assert
+        assertEquals(
+                "ProposalEntity(id=null, zip=null, street=null, neighborhood=null, complement=null, city=null, state=null,"
+                        + " proposal=null, document=DocumentEntity(id=null, imageAddress=null))",
+                proposalEntity.toString());
     }
 
     @Test
@@ -364,7 +390,7 @@ public class ProposalEntityTest {
         assertEquals(
                 "ProposalEntity(id=null, zip=null, street=null, neighborhood=null, complement=null, city=null, state=null,"
                         + " proposal=PreRegistrationEntity(id=null, firstName=null, lastName=null, email=null, birthDate=null,"
-                        + " cpf=null, status=null))",
+                        + " cpf=null, status=null), document=null)",
                 proposalEntity.toString());
     }
 
@@ -409,7 +435,7 @@ public class ProposalEntityTest {
         // Arrange, Act and Assert
         assertEquals(
                 "ProposalEntity(id=null, zip=null, street=null, neighborhood=null, complement=null, city=null, state=null,"
-                        + " proposal=null)",
+                        + " proposal=null, document=null)",
                 (new ProposalEntity()).toString());
     }
 }
