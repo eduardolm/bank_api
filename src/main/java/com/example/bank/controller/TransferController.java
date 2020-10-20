@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("v1/transfers")
@@ -35,6 +36,13 @@ public class TransferController {
     public ResponseEntity getTransfers() {
 
         var response =  transferService.getTransfers();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getTransfer(@PathVariable() UUID id) {
+
+        var response = transferService.getTransfer(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
