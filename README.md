@@ -42,7 +42,7 @@ Nessa etapa, o cliente disponibiliza informações sobre seu endereço:
  O cliente utiliza o token, uma senha temporária é gerada e enviada ao e-mail do cliente.
  
  #### Transferência
- A API deve também possibiltiar o recebimento de transferencias bancárias, armazenando todas as informações pertinentes e atualizado o saldo da conta.
+ A API deve também possibilitar o recebimento de transferencias bancárias, armazenando todas as informações pertinentes e atualizado o saldo da conta.
  
  ## Tecnologias utilizadas
   + Java 11

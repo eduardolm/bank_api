@@ -57,7 +57,7 @@ public class PreRegistrationController {
         }
         catch (Exception ex) {
             JSONObject jsonObject = new JSONObject();
-            if (ex.getMessage() == "É preciso ter mais de 18 anos para abrir uma conta.") {
+            if (ex.getMessage().equals("É preciso ter mais de 18 anos para abrir uma conta.")) {
                 jsonObject.put("Message", ex.getMessage());
             } else{
                 jsonObject.put("Erro", "Dados já existem em nossos cadastros.");
