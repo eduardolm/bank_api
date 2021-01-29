@@ -1,3 +1,4 @@
+
 # Banking API
 ![License](src/main/resources/static/img/MIT.svg)
 ![Version](src/main/resources/static/img/version-v100.svg)
@@ -80,4 +81,3 @@ Com todos os requisitos e a API em execução, pode-se utilizar o Postman para f
 
 Para maiores informações sobre os endpoints e os payloads passados, favor ler a documentação completa em:
 `docs\DOCUMENTATION.md`
-
